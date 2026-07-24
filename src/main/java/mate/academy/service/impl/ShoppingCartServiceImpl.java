@@ -2,6 +2,8 @@ package mate.academy.service.impl;
 
 import java.util.ArrayList;
 import mate.academy.dao.ShoppingCartDao;
+import mate.academy.dao.TicketDao;
+import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Inject;
 import mate.academy.model.MovieSession;
 import mate.academy.model.ShoppingCart;
@@ -12,6 +14,7 @@ import mate.academy.service.ShoppingCartService;
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Inject
     private ShoppingCartDao shoppingCartDao;
+    private TicketDao ticketDao;
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
@@ -20,6 +23,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         Ticket ticket = new Ticket();
         ticket.setMovieSession(movieSession);
         ticket.setShoppingCart(shoppingCart);
+
+        ticketDao.add(ticket);
 
         if (shoppingCart.getTickets() == null) {
             shoppingCart.setTickets(new ArrayList<>());
@@ -32,8 +37,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getByUser(User user) {
-        return shoppingCartDao.getByUser(user).orElseThrow(() ->
-                new RuntimeException("Cart not found for user: " + user.getEmail()));
+        return shoppingCartDao.getByUser(user)
+                .orElseThrow(() -> new DataProcessingException(
+                        "Cart not found for user: " + user.getEmail(),
+                        null
+                ));
     }
 
     @Override

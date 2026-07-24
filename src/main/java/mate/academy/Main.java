@@ -16,7 +16,7 @@ public class Main {
         MovieService movieService = null;
 
         Injector injector = Injector.getInstance("mate.academy");
-        ShoppingCartService authService = (ShoppingCartService)
+        ShoppingCartService shoppingCartService = (ShoppingCartService)
                 injector.getInstance(ShoppingCartService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
