@@ -14,6 +14,7 @@ import mate.academy.service.ShoppingCartService;
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Inject
     private ShoppingCartDao shoppingCartDao;
+    @Inject
     private TicketDao ticketDao;
 
     @Override
@@ -39,9 +40,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCart getByUser(User user) {
         return shoppingCartDao.getByUser(user)
                 .orElseThrow(() -> new DataProcessingException(
-                        "Cart not found for user: " + user.getEmail(),
-                        null
-                ));
+                        "Cart not found for user: " + user.getEmail(), null));
     }
 
     @Override
